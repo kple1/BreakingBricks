@@ -11,11 +11,9 @@ int main() {
         for (int j = 0; j < 6; j++) {
             main[i][j] = count;
             count++;
-            //if (main[i][j] == 0 || main[i][j] == 5 || main[i][j] == 60 || main[i][j] == 65) main[i][j] = ' ';
-            if (main[i][j] % 6 == 0 || (main[i][j] + 1) % 6 == 0) main[i][j] = L'■';
-            else if (main[i][j] == j || main[i][j] == j + 60) main[i][j] = L'■';
-            else main[i][j] = ' ';
-            printf(L"%s ", main[i][j]);
+            if (main[i][j] % 6 == 0 || (main[i][j] + 1) % 6 == 0) printf("%s ", "\u25A1");
+            else if (main[i][j] == j || main[i][j] == j + 60) printf("%s ", "\u25A1");
+            else main[i][j] = printf("%s ", " ");
         }
         printf("\n");
     }
