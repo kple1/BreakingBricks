@@ -1,21 +1,25 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <windows.h>
 #include <conio.h>
 
+#define UP 72
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
+
 void GotoXY(double x, double y);
 void wall();
-void setBall();
-void changeDirection();
+void setFloor();
 
 int main() {
     wall(); //벽 설정
-    setBall(); //공 설정
-    changeDirection(); //공을 발사할 위치 설정 (keyEvent 발생)
+    setFloor(); //바닥 설정
     //대기
     int a;
     scanf("%d", a);
     return 0;
 }
+
 void wall() {
     int main[22][12] = {};
     int count = 0;
@@ -29,36 +33,28 @@ void wall() {
             } else if (main[i][j] == j || main[i][j] == j + 252)  {
                 printf("%s ", "\u25A1");
             } else {
-                main[i][j] = printf("%s ", " ");
+                printf("%s ", " ");
             }
         }
         printf("\n");
     }
 }
 
-void setBall() {
-    GotoXY(10, 20);
-    printf("\u25CF");
-}
+void setFloor() {
+    GotoXY(9, 20);
+    printf("_____");
 
-int direction = 3; //중간 값 3
-void changeDirection() {
-    GotoXY(10, 19);
-    printf("\u2191");
-
-    int site = getchar();
-    if (site == 224) {
-        site = getch();
-
-        switch (site) {
-            case 75:
-                if () {}
-                break;
-            case 77:
-                if () {}
-                break;
-            default:
-                break;
+    char c;
+    while (1) {
+        if (_kbhit()) {
+            c = getch();
+            if (c == -32) {
+                c = getch();
+                switch (c) {
+                    case LEFT:
+                        break;
+                }
+            }
         }
     }
 }
