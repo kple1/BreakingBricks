@@ -2,56 +2,50 @@
 #include <windows.h>
 #include <conio.h>
 
-#define UP 72
-#define DOWN 80
 #define LEFT 75
 #define RIGHT 77
 
-void GotoXY(double x, double y);
-void wall();
-void setFloor();
+void GotoXY(int x, int y);
+void keyListener(char buffer[]);
 
 int main() {
-    wall(); //벽 설정
-    setFloor(); //바닥 설정
-    //대기
-    int a;
-    scanf("%d", a);
+    char buf[1000];
+
+    FILE *fpr = fopen("moveFloor\\mainFloor", "r");
+
+    int lineCount = 0;
+    while (!feof(fpr)) {
+        fgets(buf, 1000, fpr);
+        printf("%s", buf);
+        lineCount++;
+        if (lineCount == 33) {
+            keyListener(buf);
+        }
+    }
+    fclose(fpr);
     return 0;
 }
 
-void wall() {
-    int main[22][12] = {};
-    int count = 0;
-
-    for (int i = 0; i < 22; i++) {
-        for (int j = 0; j < 12; j++) {
-            main[i][j] = count;
-            count++;
-            if (main[i][j] % 12 == 0 || (main[i][j] + 1) % 12 == 0) {
-                printf("%s ", "\u25A1");
-            } else if (main[i][j] == j || main[i][j] == j + 252)  {
-                printf("%s ", "\u25A1");
-            } else {
-                printf("%s ", " ");
-            }
-        }
-        printf("\n");
-    }
-}
-
-void setFloor() {
-    GotoXY(9, 20);
-    printf("_____");
-
+void keyListener(char buffer[]) {
     char c;
+    int x = 78;
+    int y = 27;
+
     while (1) {
         if (_kbhit()) {
-            c = getch();
+            c = _getch();
             if (c == -32) {
-                c = getch();
+                c = _getch();
+                if (x == 60 || x == 101) break;
+
                 switch (c) {
                     case LEFT:
+                        x -= 1;
+                        GotoXY(x - 1, y); printf("%s", buffer);
+                        break;
+                    case RIGHT:
+                        x += 1;
+                        GotoXY(x + 1, y); printf("%s", buffer);
                         break;
                 }
             }
@@ -59,7 +53,7 @@ void setFloor() {
     }
 }
 
-void GotoXY(double x, double y) {
+void GotoXY(int x, int y) {
     COORD Pos;
     Pos.X = x;
     Pos.Y = y;
