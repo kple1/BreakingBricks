@@ -18,7 +18,8 @@ int main() {
         fgets(buf, 1000, fpr);
         printf("%s", buf);
         lineCount++;
-        if (lineCount == 33) {
+        if (lineCount - 1 == 33) {
+            lineCount -= 1;
             keyListener(buf);
         }
     }
@@ -40,12 +41,12 @@ void keyListener(char buffer[]) {
 
                 switch (c) {
                     case LEFT:
-                        x -= 1;
                         GotoXY(x - 1, y); printf("%s", buffer);
+                        x -= 1;
                         break;
                     case RIGHT:
-                        x += 1;
                         GotoXY(x + 1, y); printf("%s", buffer);
+                        x += 1;
                         break;
                 }
             }
