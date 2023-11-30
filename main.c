@@ -5,7 +5,7 @@
 #define LEFT 75
 #define RIGHT 77
 
-#define bottom 1
+#define top 1
 #define leftWall 60
 #define RightWall 95
 #define floor 31
@@ -66,7 +66,7 @@ int main() {
          */
         if (floorX >= startData || floorX <= 76) {
             if (startData == 78) startData -= 1;
-            if (ballY == bottom) changeDirection = 1;
+            if (ballY == top) changeDirection = 1;
             if (ballX == leftWall) changeDirection = 2;
             if (ballX == RightWall) changeDirection = 3;
             if (ballY == floor) changeDirection = 4;

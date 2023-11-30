@@ -14,6 +14,15 @@
 # EXTERNAL cache entries
 ########################
 
+//Value Computed by CMake
+BreakingBricks_BINARY_DIR:STATIC=C:/Users/User/CLionProjects/BreakingBricks/cmake-build-debug
+
+//Value Computed by CMake
+BreakingBricks_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+BreakingBricks_SOURCE_DIR:STATIC=C:/Users/User/CLionProjects/BreakingBricks
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=C:/Users/User/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/232.9559.58/bin/mingw/bin/addr2line.exe
 
@@ -136,7 +145,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=untitled1
+CMAKE_PROJECT_NAME:STATIC=BreakingBricks
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=C:/Users/User/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/232.9559.58/bin/mingw/bin/ranlib.exe

@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
-project(untitled1 C)
+project(BreakingBricks C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(untitled1 main.c
-)
+add_executable(BreakingBricks main.c)
