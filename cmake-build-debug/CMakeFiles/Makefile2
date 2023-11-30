@@ -62,7 +62,7 @@ CMAKE_BINARY_DIR = C:\Users\User\CLionProjects\BreakingBricks\cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/untitled1.dir/all
+all: CMakeFiles/BreakingBricks.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -70,34 +70,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/untitled1.dir/clean
+clean: CMakeFiles/BreakingBricks.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/untitled1.dir
+# Target rules for target CMakeFiles/BreakingBricks.dir
 
 # All Build rule for target.
-CMakeFiles/untitled1.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\User\CLionProjects\BreakingBricks\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target untitled1"
-.PHONY : CMakeFiles/untitled1.dir/all
+CMakeFiles/BreakingBricks.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\BreakingBricks.dir\build.make CMakeFiles/BreakingBricks.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\BreakingBricks.dir\build.make CMakeFiles/BreakingBricks.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\User\CLionProjects\BreakingBricks\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target BreakingBricks"
+.PHONY : CMakeFiles/BreakingBricks.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/untitled1.dir/rule: cmake_check_build_system
+CMakeFiles/BreakingBricks.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\User\CLionProjects\BreakingBricks\cmake-build-debug\CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/untitled1.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/BreakingBricks.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\User\CLionProjects\BreakingBricks\cmake-build-debug\CMakeFiles 0
-.PHONY : CMakeFiles/untitled1.dir/rule
+.PHONY : CMakeFiles/BreakingBricks.dir/rule
 
 # Convenience name for target.
-untitled1: CMakeFiles/untitled1.dir/rule
-.PHONY : untitled1
+BreakingBricks: CMakeFiles/BreakingBricks.dir/rule
+.PHONY : BreakingBricks
 
 # clean rule for target.
-CMakeFiles/untitled1.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\untitled1.dir\build.make CMakeFiles/untitled1.dir/clean
-.PHONY : CMakeFiles/untitled1.dir/clean
+CMakeFiles/BreakingBricks.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\BreakingBricks.dir\build.make CMakeFiles/BreakingBricks.dir/clean
+.PHONY : CMakeFiles/BreakingBricks.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
