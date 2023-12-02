@@ -1,3 +1,3 @@
-C:\Users\User\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\232.9559.58\bin\cmake\win\x64\bin\cmake.exe -E rm -f CMakeFiles\BreakingBricks.dir/objects.a
-C:\Users\User\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\232.9559.58\bin\mingw\bin\ar.exe qc CMakeFiles\BreakingBricks.dir/objects.a @CMakeFiles\BreakingBricks.dir\objects1.rsp
-C:\Users\User\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\232.9559.58\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\BreakingBricks.dir/objects.a -Wl,--no-whole-archive -o BreakingBricks.exe -Wl,--out-implib,libBreakingBricks.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\BreakingBricks.dir\linkLibs.rsp
+C:\Users\Leepl\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -E rm -f CMakeFiles\BreakingBricks.dir/objects.a
+C:\Users\Leepl\AppData\Local\Programs\CLion\bin\mingw\bin\ar.exe qc CMakeFiles\BreakingBricks.dir/objects.a @CMakeFiles\BreakingBricks.dir\objects1.rsp
+C:\Users\Leepl\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\BreakingBricks.dir/objects.a -Wl,--no-whole-archive -o BreakingBricks.exe -Wl,--out-implib,libBreakingBricks.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\BreakingBricks.dir\linkLibs.rsp

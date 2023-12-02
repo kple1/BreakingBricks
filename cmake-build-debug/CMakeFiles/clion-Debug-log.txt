@@ -1,4 +1,10 @@
-C:\Users\User\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\232.9559.58\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\User\CLionProjects\BreakingBricks -B C:\Users\User\CLionProjects\BreakingBricks\cmake-build-debug
--- Configuring done (0.1s)
+C:\Users\Leepl\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\Leepl\CLionProjects\BreakingBricks -B C:\Users\Leepl\CLionProjects\BreakingBricks\cmake-build-debug
+-- The C compiler identification is GNU 13.1.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Users/Leepl/AppData/Local/Programs/CLion/bin/mingw/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Configuring done (1.7s)
 -- Generating done (0.0s)
--- Build files have been written to: C:/Users/User/CLionProjects/BreakingBricks/cmake-build-debug
+-- Build files have been written to: C:/Users/Leepl/CLionProjects/BreakingBricks/cmake-build-debug
