@@ -21,6 +21,7 @@ void straight();
 void systemSetting();
 void showTitle();
 void reset();
+void ballCreate();
 
 int floorX = 77;
 int floorY = 31;
@@ -31,6 +32,7 @@ int ballY = 30;
 int changeDirection = 0;
 int startData = 78;
 int ballStartData = 0;
+int wallDiscrimination = 0;
 
 int main() {
     systemSetting();
@@ -45,13 +47,14 @@ int main() {
             c = _getch();
             if (c == -32) {
                 c = _getch();
+
                 //발판이 벽에 닿으면
                 if (floorX == 60) {
                     floorX = 61;
                 } else if (floorX == 95) {
                     floorX = 94;
                 }
-                //keyListener
+
                 switch (c) {
                     case LEFT:
                         GotoXY(floorX, floorY);
@@ -71,11 +74,8 @@ int main() {
             }
         }
 
-        /**
-         * 첫 시작이 N ~ 78 , 76 ~ 0 만약 77일시 바로 공이 발사됨을 방지하기 위하여, 변수로 따로 지정.
-         * 만약 시작하면 움직여도 멈추지 않게 모든 범위 할당 /
-         * (최대 창 기준) 창 바뀌면 좌표도 달라짐.
-         */
+
+        //[첫 시작이 N ~ 78 , 76 ~ 0 ] 만약 조건문이 77일시 바로 공이 발사됨을 방지하기 위하여, 변수로 따로 지정.
         if (floorX >= startData || floorX <= 76) {
             if (startData == 78) startData -= 1;
             if (ballStartData == 0) {
@@ -117,21 +117,22 @@ int main() {
                 case 5:
                     changeAngle_RightTop();
                     ballStartData = 1;
+                    wallDiscrimination = 1;
                     break;
                 case 6:
-                    straight();
+                    straight(); //직진
                     ballStartData = 0;
                     break;
                 case 7:
                     changeAngle_LeftTop();
                     ballStartData = 1;
+                    wallDiscrimination = 2;
                     break;
                 default:
                     break;
             }
         }
     }
-    return 0;
 }
 
 void reset() {
@@ -144,6 +145,7 @@ void reset() {
     changeDirection = 0;
     startData = 78;
     ballStartData = 0;
+    wallDiscrimination = 0;
 
     system("cls");
     showTitle();
@@ -163,53 +165,51 @@ void showTitle() {
 void shoot() {
     GotoXY(80, --ballY);
     printf("○");
-    Sleep(50); //공이 빨리 사라지지 않게 하기 위함
+    Sleep(50);
     GotoXY(80, ballY);
     printf(" ");
 }
 
+//가운데 2개 발판에 닿았을 때 직진한다.
 void straight() {
     GotoXY(ballX, --ballY);
-    printf("○");
-    Sleep(50);
-    GotoXY(ballX, ballY);
-    printf(" ");
+    ballCreate();
 }
 
+/**
+ * 위로 부딪히면 왼쪽아래로 간다.
+ * 수정 사항: 랜덤 값으로 오른쪽 왼쪽 방향 조절해야 함
+ */
 void changeAngle_Top() {
     GotoXY(--ballX, ++ballY);
-    printf("○");
-    Sleep(50);
-    GotoXY(ballX, ballY);
-    printf(" ");
+    ballCreate();
 }
 
+//왼쪽으로 부딪히면 오른쪽 아래로 간다.
 void changeAngle_Left() {
     GotoXY(++ballX, ++ballY);
-    printf("○");
-    Sleep(50);
-    GotoXY(ballX, ballY);
-    printf(" ");
+    ballCreate();
 }
 
+//오른쪽으로 부딪히면 왼쪽 아래로 간다.
 void changeAngle_Right() {
     GotoXY(--ballX, ++ballY);
-    printf("○");
-    Sleep(50);
-    GotoXY(ballX, ballY);
-    printf(" ");
+    ballCreate();
 }
 
+//왼쪽 2개 발판에 닿았을 때 왼쪽 위로 간다.
 void changeAngle_LeftTop() {
     GotoXY(--ballX, --ballY);
-    printf("○");
-    Sleep(50);
-    GotoXY(ballX, ballY);
-    printf(" ");
+    ballCreate();
 }
 
+//오른쪽 2개 발판에 닿았을 때 오른쪽 위로 간다.
 void changeAngle_RightTop() {
     GotoXY(++ballX, --ballY);
+    ballCreate();
+}
+
+void ballCreate() {
     printf("○");
     Sleep(50);
     GotoXY(ballX, ballY);
