@@ -30,9 +30,8 @@ int ballX = 80;
 int ballY = 30;
 
 int changeDirection = 0;
-int startData = 78;
+int floorStartData = 78;
 int ballStartData = 0;
-int wallDiscrimination = 0;
 
 int main() {
     systemSetting();
@@ -74,25 +73,42 @@ int main() {
             }
         }
 
-
         //[첫 시작이 N ~ 78 , 76 ~ 0 ] 만약 조건문이 77일시 바로 공이 발사됨을 방지하기 위하여, 변수로 따로 지정.
-        if (floorX >= startData || floorX <= 76) {
-            if (startData == 78) startData -= 1;
+        if (floorX >= floorStartData || floorX <= 76) {
+            if (floorStartData == 78) floorStartData -= 1;
             if (ballStartData == 0) {
                 if (ballY == top) changeDirection = 1;
                 if (ballX == leftWall) changeDirection = 2;
                 if (ballX == RightWall) changeDirection = 3;
                 if (ballY == floor) changeDirection = 4;
-            } else {
+            } else if (ballStartData == 1) {
                 if (ballY == top) changeDirection = 1;
+                if (ballX == leftWall) changeDirection = 5;
+                if (ballX == RightWall) changeDirection = 7;
+                if (ballY == floor) changeDirection = 4;
+            } else if (ballStartData == 2) {
+                if (ballY == top) changeDirection = 2;
+                if (ballX == leftWall) changeDirection = 5;
+                if (ballX == RightWall) changeDirection = 7;
+                if (ballY == floor) changeDirection = 4;
+            } else if (ballStartData == 3) {
+                if (ballY == top) changeDirection = 3;
                 if (ballX == leftWall) changeDirection = 5;
                 if (ballX == RightWall) changeDirection = 7;
                 if (ballY == floor) changeDirection = 4;
             }
 
-            if (ballX == floorX && ballY == floorY || ballX == floorX + 1 && ballY == floorY) changeDirection = 7; //왼쪽 2개
-            if (ballX == floorX + 2 && ballY == floorY || ballX == floorX + 3 && ballY == floorY) changeDirection = 6; //가운데 2개
-            if (ballX == floorX + 4 && ballY == floorY || ballX == floorX + 5 && ballY == floorY) changeDirection = 5; //오른쪽 2개
+            if (ballX == floorX && ballY == floorY || ballX == floorX + 1 && ballY == floorY) {
+                changeDirection = 7; //발판 왼쪽 2개
+                ballStartData = 1;
+            }
+
+            if (ballX == floorX + 2 && ballY == floorY || ballX == floorX + 3 && ballY == floorY) changeDirection = 6; //발판 가운데 2개
+
+            if (ballX == floorX + 4 && ballY == floorY || ballX == floorX + 5 && ballY == floorY) {
+                changeDirection = 5; //발판 오른쪽 2개
+                ballStartData = 1;
+            }
 
             switch (changeDirection) {
                 case 0:
@@ -116,17 +132,15 @@ int main() {
                     break;
                 case 5:
                     changeAngle_RightTop();
-                    ballStartData = 1;
-                    wallDiscrimination = 1;
+                    ballStartData = 2;
                     break;
                 case 6:
-                    straight(); //직진
+                    straight();
                     ballStartData = 0;
                     break;
                 case 7:
                     changeAngle_LeftTop();
-                    ballStartData = 1;
-                    wallDiscrimination = 2;
+                    ballStartData = 3;
                     break;
                 default:
                     break;
@@ -143,9 +157,8 @@ void reset() {
     ballY = 30;
 
     changeDirection = 0;
-    startData = 78;
+    floorStartData = 78;
     ballStartData = 0;
-    wallDiscrimination = 0;
 
     system("cls");
     showTitle();
