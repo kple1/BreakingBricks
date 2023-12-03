@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Leepl/CLionProjects/BreakingBricks/cmake-build-debug",
-		"source" : "C:/Users/Leepl/CLionProjects/BreakingBricks"
+		"build" : "C:/Users/User/CLionProjects/BreakingBricks/cmake-build-debug",
+		"source" : "C:/Users/User/CLionProjects/BreakingBricks"
 	},
 	"version" : 
 	{

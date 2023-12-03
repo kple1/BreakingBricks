@@ -22,6 +22,8 @@ void systemSetting();
 void showTitle();
 void reset();
 void ballCreate();
+void dropBricks();
+void dropItem();
 
 int floorX = 77;
 int floorY = 31;
@@ -29,9 +31,12 @@ int floorY = 31;
 int ballX = 80;
 int ballY = 30;
 
+int bricksY = 1;
+
 int changeDirection = 0;
 int floorStartData = 78;
 int ballStartData = 0;
+int gameEndData = 0;
 
 int main() {
     systemSetting();
@@ -52,6 +57,12 @@ int main() {
                     floorX = 61;
                 } else if (floorX == 95) {
                     floorX = 94;
+                }
+
+                //죽고 나서 바로 플레이 됨을 방지하기 위함
+                if (gameEndData == 1) {
+                    Sleep(1500);
+                    gameEndData = 0;
                 }
 
                 switch (c) {
@@ -99,15 +110,23 @@ int main() {
             }
 
             if (ballX == floorX && ballY == floorY || ballX == floorX + 1 && ballY == floorY) {
+                dropBricks();
                 changeDirection = 7; //발판 왼쪽 2개
                 ballStartData = 1;
+                ++bricksY;
             }
 
-            if (ballX == floorX + 2 && ballY == floorY || ballX == floorX + 3 && ballY == floorY) changeDirection = 6; //발판 가운데 2개
+            if (ballX == floorX + 2 && ballY == floorY || ballX == floorX + 3 && ballY == floorY) {
+                dropBricks();
+                changeDirection = 6; //발판 가운데 2개
+                ++bricksY;
+            }
 
             if (ballX == floorX + 4 && ballY == floorY || ballX == floorX + 5 && ballY == floorY) {
+                dropBricks();
                 changeDirection = 5; //발판 오른쪽 2개
                 ballStartData = 1;
+                ++bricksY;
             }
 
             switch (changeDirection) {
@@ -149,6 +168,26 @@ int main() {
     }
 }
 
+void dropBricks() {
+    GotoXY(60, bricksY);
+    printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+    //X60 벽 기준 바로 오른쪽
+    //X94 벽 기준 바로 왼쪽
+}
+
+void dropItem() {
+    /**
+     * 블럭을 n번 부술 때마다 아이템이 드랍된다. (상의)
+     * 밑 아이템 들의 드랍 [ 확률 ] , [ 사용 수 ] , [ 중첩 ]을 지정한다. (상의)
+     * 1. 공이 넓은 범위로 블럭을 제거한다.
+     * 2. 공이 1번 무적으로 변한다.
+     * 3. n개의 벽을 제외하고 나머지 벽을 다 제거한다.
+     * 4. 맨 아래의 벽을 모두 제거한다.
+     * 5. 맨 밑 줄에있는 n개의 줄을 제거한다.
+     * 6. 발판 조작이 빨라진다.
+     */
+}
+
 void reset() {
     floorX = 77;
     floorY = 31;
@@ -156,9 +195,12 @@ void reset() {
     ballX = 80;
     ballY = 30;
 
+    bricksY = 1;
+
     changeDirection = 0;
     floorStartData = 78;
     ballStartData = 0;
+    gameEndData = 1;
 
     system("cls");
     showTitle();
@@ -166,13 +208,32 @@ void reset() {
 
 void showTitle() {
     char buf[100];
-    FILE *fpr = fopen("wall", "r");
+    FILE *fpr = fopen("title", "r");
 
     while (!feof(fpr)) {
         fgets(buf, 100, fpr);
         printf("%s", buf);
     }
     fclose(fpr);
+    //INFO
+    GotoXY(110, 9);
+    printf("━━━━━━━[ \033[35mBEST \033[0m]━━━━━━━");
+    GotoXY(110, 10);
+    printf("Record : ");
+    GotoXY(110, 11);
+    printf("Breaking Bricks : ");
+    GotoXY(110, 12);
+    printf(" ");
+    GotoXY(110, 13);
+    printf("━━━━━━━[ \033[36mPLAY \033[0m]━━━━━━━");
+    GotoXY(110, 14);
+    printf("Record : ");
+    GotoXY(110, 15);
+    printf("Breaking Bricks : ");
+    GotoXY(110, 16);
+    printf("Money : ");
+    GotoXY(110, 17);
+    printf("Time : ");
 }
 
 void shoot() {

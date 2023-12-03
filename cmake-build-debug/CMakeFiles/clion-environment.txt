@@ -1,4 +1,4 @@
-ToolSet: w64 11.0 (local)@C:\Users\Leepl\AppData\Local\Programs\CLion\bin\mingw
+ToolSet: w64 11.0 (local)@C:\Users\User\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\232.9559.58\bin\mingw
 Options: 
 
 Options:
