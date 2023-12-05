@@ -22,8 +22,13 @@ void systemSetting();
 void showTitle();
 void reset();
 void ballCreate();
-void dropBricks();
 void dropItem();
+void visual();
+void topListener(int direction);
+void leftListener(int direction);
+void rightListener(int direction);
+void floorListener();
+void countScore();
 
 int floorX = 77;
 int floorY = 31;
@@ -31,12 +36,19 @@ int floorY = 31;
 int ballX = 80;
 int ballY = 30;
 
-int bricksY = 1;
+char bricksData[17][41] = {};
 
 int changeDirection = 0;
 int floorStartData = 78;
 int ballStartData = 0;
 int gameEndData = 0;
+
+int breakingBricksScore = 0;
+int time = 0;
+int record = 0;
+
+int highBreakingBricks = 0;
+int highRecord = 0;
 
 int main() {
     systemSetting();
@@ -53,80 +65,62 @@ int main() {
                 c = _getch();
 
                 //발판이 벽에 닿으면
-                if (floorX == 60) {
-                    floorX = 61;
-                } else if (floorX == 95) {
-                    floorX = 94;
-                }
-
-                //죽고 나서 바로 플레이 됨을 방지하기 위함
-                if (gameEndData == 1) {
-                    Sleep(1500);
-                    gameEndData = 0;
-                }
+                if (floorX == 60) floorX = 61;
+                else if (floorX == 95) floorX = 94;
 
                 switch (c) {
                     case LEFT:
-                        GotoXY(floorX, floorY);
-                        printf("      ");
+                        GotoXY(floorX, floorY); printf("      ");
                         floorX -= 1;
-                        GotoXY(floorX, floorY);
-                        printf("______");
+                        GotoXY(floorX, floorY); printf("______");
                         break;
                     case RIGHT:
-                        GotoXY(floorX, floorY);
-                        printf("      ");
+                        GotoXY(floorX, floorY); printf("      ");
                         floorX += 1;
-                        GotoXY(floorX, floorY);
-                        printf("______");
+                        GotoXY(floorX, floorY); printf("______");
                         break;
+                    default: {};
                 }
             }
         }
 
         //[첫 시작이 N ~ 78 , 76 ~ 0 ] 만약 조건문이 77일시 바로 공이 발사됨을 방지하기 위하여, 변수로 따로 지정.
-        if (floorX >= floorStartData || floorX <= 76) {
+        if (floorX >= floorStartData || floorX <= 76 && gameEndData == 0) {
             if (floorStartData == 78) floorStartData -= 1;
             if (ballStartData == 0) {
-                if (ballY == top) changeDirection = 1;
-                if (ballX == leftWall) changeDirection = 2;
-                if (ballX == RightWall) changeDirection = 3;
-                if (ballY == floor) changeDirection = 4;
+                topListener(1);
+                leftListener(2);
+                rightListener(3);
+                floorListener();
             } else if (ballStartData == 1) {
-                if (ballY == top) changeDirection = 1;
-                if (ballX == leftWall) changeDirection = 5;
-                if (ballX == RightWall) changeDirection = 7;
-                if (ballY == floor) changeDirection = 4;
+                topListener(1);
+                leftListener(5);
+                rightListener(7);
+                floorListener();
             } else if (ballStartData == 2) {
-                if (ballY == top) changeDirection = 2;
-                if (ballX == leftWall) changeDirection = 5;
-                if (ballX == RightWall) changeDirection = 7;
-                if (ballY == floor) changeDirection = 4;
+                topListener(2);
+                leftListener(5);
+                rightListener(7);
+                floorListener();
             } else if (ballStartData == 3) {
-                if (ballY == top) changeDirection = 3;
-                if (ballX == leftWall) changeDirection = 5;
-                if (ballX == RightWall) changeDirection = 7;
-                if (ballY == floor) changeDirection = 4;
+                topListener(3);
+                leftListener(5);
+                rightListener(7);
+                floorListener();
             }
 
             if (ballX == floorX && ballY == floorY || ballX == floorX + 1 && ballY == floorY) {
-                dropBricks();
                 changeDirection = 7; //발판 왼쪽 2개
                 ballStartData = 1;
-                ++bricksY;
             }
 
             if (ballX == floorX + 2 && ballY == floorY || ballX == floorX + 3 && ballY == floorY) {
-                dropBricks();
                 changeDirection = 6; //발판 가운데 2개
-                ++bricksY;
             }
 
             if (ballX == floorX + 4 && ballY == floorY || ballX == floorX + 5 && ballY == floorY) {
-                dropBricks();
                 changeDirection = 5; //발판 오른쪽 2개
                 ballStartData = 1;
-                ++bricksY;
             }
 
             switch (changeDirection) {
@@ -147,7 +141,12 @@ int main() {
                     ballStartData = 0;
                     break;
                 case 4:
-                    reset();
+                    //죽고 나서 바로 플레이 됨을 방지하기 위함
+                    //key related problem
+                    gameEndData = 1;
+                    if (gameEndData == 1) {
+                        visual();
+                    }
                     break;
                 case 5:
                     changeAngle_RightTop();
@@ -166,13 +165,6 @@ int main() {
             }
         }
     }
-}
-
-void dropBricks() {
-    GotoXY(60, bricksY);
-    printf("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-    //X60 벽 기준 바로 오른쪽
-    //X94 벽 기준 바로 왼쪽
 }
 
 void dropItem() {
@@ -195,45 +187,175 @@ void reset() {
     ballX = 80;
     ballY = 30;
 
-    bricksY = 1;
-
     changeDirection = 0;
     floorStartData = 78;
     ballStartData = 0;
-    gameEndData = 1;
+    gameEndData = 0;
+
+    breakingBricksScore = 0;
+    time = 0;
+    record = 0;
 
     system("cls");
     showTitle();
 }
 
+void countScore() {
+    breakingBricksScore += 1;
+    record += 100;
+    GotoXY(110, 15);
+    printf("Breaking Bricks : %d", breakingBricksScore);
+    GotoXY(110, 14);
+    printf("Record : %d", record);
+}
+
+
+int test = 0;
+void topListener(int direction) {
+    //세로23 가로41
+    for (int y = 1; y <= 16; y++) {
+        for (int x = 1; x <= 41; x++) {
+            if (ballX - 60 == x && ballY - 1 == y && bricksData[y - 1][x - 1] == 'o') {
+                countScore();
+                bricksData[y - 1][x - 1] = ' ';
+                changeDirection = direction;
+                test = 1;
+            }
+        }
+    }
+    for (int y = 1; y <= 16; y++) {
+        GotoXY(60, y);
+        if (test == 1)
+        for (int x = 1; x <= 41; x++) {
+            printf("%c", bricksData[y - 1][x - 1]);
+        }
+    }
+    test = 0;
+    if (ballY == top) {
+        changeDirection = direction;
+    }
+}
+
+void leftListener(int direction) {
+    for (int y = 1; y <= 16; y++) {
+        for (int x = 1; x <= 41; x++) {
+            if (ballX - 60 == x && ballY == y && bricksData[y - 1][x - 1] == 'o') {
+                countScore();
+                bricksData[y - 1][x - 1] = ' ';
+                changeDirection = direction;
+                test = 1;
+            }
+        }
+    }
+    for (int y = 1; y <= 16; y++) {
+        GotoXY(60, y);
+        if (test == 1)
+            for (int x = 1; x <= 41; x++) {
+                printf("%c", bricksData[y - 1][x - 1]);
+            }
+    }
+    test = 0;
+    if (ballX == leftWall) {
+        changeDirection = direction;
+    }
+}
+
+void floorListener() {
+    for (int y = 1; y <= 16; y++) {
+        for (int x = 1; x <= 41; x++) {
+            if (ballX - 60 == x && ballY + 1 == y && bricksData[y - 1][x - 1] == 'o') {
+                countScore();
+                bricksData[y - 1][x - 1] = ' ';
+                changeDirection = 1;
+                test = 1;
+            }
+        }
+    }
+    for (int y = 1; y <= 16; y++) {
+        GotoXY(60, y);
+        if (test == 1)
+            for (int x = 1; x <= 41; x++) {
+                printf("%c", bricksData[y - 1][x - 1]);
+            }
+    }
+    test = 0;
+    if (ballY == floor) {
+        changeDirection = 4;
+    }
+}
+
+void rightListener(int direction) {
+    for (int y = 1; y <= 16; y++) {
+        for (int x = 1; x <= 41; x++) {
+            if (ballX - 60 == x && ballY == y && bricksData[y - 1][x - 1] == 'o') {
+                countScore();
+                bricksData[y - 1][x - 1] = ' ';
+                changeDirection = direction;
+                test = 1;
+            }
+        }
+    }
+    for (int y = 1; y <= 16; y++) {
+        GotoXY(60, y);
+        if (test == 1)
+            for (int x = 1; x <= 41; x++) {
+                printf("%c", bricksData[y - 1][x - 1]);
+            }
+    }
+    test = 0;
+    if (ballX == RightWall) {
+        changeDirection = direction;
+    }
+}
+
 void showTitle() {
     char buf[100];
-    FILE *fpr = fopen("title", "r");
+    FILE *fpr1 = fopen("title", "r");
 
-    while (!feof(fpr)) {
-        fgets(buf, 100, fpr);
+    while (!feof(fpr1)) {
+        fgets(buf, 100, fpr1);
         printf("%s", buf);
     }
-    fclose(fpr);
+    fclose(fpr1);
+
+    /*FILE *fpw1 = fopen("gameData", "w");
+    FILE *fpr2 = fopen("gameData", "r");
+    fprintf(fpr1, "%d\n%d", highScore[0], highScore[1]);*/
+
     //INFO
+    if (highBreakingBricks < breakingBricksScore) {
+        highBreakingBricks = breakingBricksScore;
+    }
+    if (highRecord < record) {
+        highRecord = record;
+    }
     GotoXY(110, 9);
     printf("━━━━━━━[ \033[35mBEST \033[0m]━━━━━━━");
     GotoXY(110, 10);
-    printf("Record : ");
+    printf("Record : %d", highRecord);
     GotoXY(110, 11);
-    printf("Breaking Bricks : ");
+    printf("Breaking Bricks : %d", highBreakingBricks);
     GotoXY(110, 12);
     printf(" ");
     GotoXY(110, 13);
     printf("━━━━━━━[ \033[36mPLAY \033[0m]━━━━━━━");
     GotoXY(110, 14);
-    printf("Record : ");
+    printf("Record : %d", record);
     GotoXY(110, 15);
-    printf("Breaking Bricks : ");
+    printf("Breaking Bricks : %d", breakingBricksScore);
     GotoXY(110, 16);
-    printf("Money : ");
-    GotoXY(110, 17);
-    printf("Time : ");
+    printf("Time : %d", time);
+    //BRICKS
+    if (test == 0) {
+        for (int y = 1; y <= 16; y++) {
+            GotoXY(60, y);
+            for (int x = 1; x <= 41; x++) {
+                bricksData[y - 1][x - 1] = 'o';
+                printf("%c", bricksData[y - 1][x - 1]);
+            }
+            printf("\n");
+        }
+    }
 }
 
 void shoot() {
@@ -302,4 +424,50 @@ void GotoXY(int x, int y) {
     Pos.X = x;
     Pos.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+
+void visual() {
+    system("cls");
+    int speed = 100;
+    GotoXY(68, 10); printf("\033[31m██████╗ ██╗███████╗██╗");
+    GotoXY(68, 11); printf("██╔══██╗██║██╔════╝██║");
+    GotoXY(68, 12); printf("██║  ██║██║█████╗  ██║");
+    GotoXY(68, 13); printf("██║  ██║██║██╔══╝  ╚═╝");
+    GotoXY(68, 14); printf("██████╔╝██║███████╗██╗");
+    GotoXY(68, 15); printf("╚═════╝ ╚═╝╚══════╝╚═╝\033[0m");
+    for (int i = 0; i < 20; i++) {
+        if (i % 4 == 0) {
+            GotoXY(53, 17);
+            printf("#--------------------------------------------------#\n\n");
+            GotoXY(53, 18);
+            printf("                      Loading.      |               \n\n");
+            GotoXY(53, 19);
+            printf("#--------------------------------------------------#\n");
+        } else if (i % 4 == 1) {
+            GotoXY(53, 17);
+            printf("#--------------------------------------------------#\n\n");
+            GotoXY(53, 18);
+            printf("                      Loading..     /               \n\n");
+            GotoXY(53, 19);
+            printf("#--------------------------------------------------#\n");
+        } else if (i % 4 == 2) {
+            GotoXY(53, 17);
+            printf("#--------------------------------------------------#\n\n");
+            GotoXY(53, 18);
+            printf("                      Loading...    -               \n\n");
+            GotoXY(53, 19);
+            printf("#--------------------------------------------------#\n");
+        } else if (i % 4 == 3) {
+            GotoXY(53, 17);
+            printf("#--------------------------------------------------#\n\n");
+            GotoXY(53, 18);
+            printf("                      Loading....   \\              \n\n");
+            GotoXY(53, 19);
+            printf("#--------------------------------------------------#\n");
+        }
+        Sleep(speed);
+    }
+    if (gameEndData == 1) {
+        reset();
+    }
 }
