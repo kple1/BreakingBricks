@@ -29,6 +29,7 @@ void leftListener(int direction);
 void rightListener(int direction);
 void floorListener();
 void countScore();
+void saveScore();
 
 int floorX = 77;
 int floorY = 31;
@@ -70,16 +71,21 @@ int main() {
 
                 switch (c) {
                     case LEFT:
-                        GotoXY(floorX, floorY); printf("      ");
+                        GotoXY(floorX, floorY);
+                        printf("      ");
                         floorX -= 1;
-                        GotoXY(floorX, floorY); printf("______");
+                        GotoXY(floorX, floorY);
+                        printf("______");
                         break;
                     case RIGHT:
-                        GotoXY(floorX, floorY); printf("      ");
+                        GotoXY(floorX, floorY);
+                        printf("      ");
                         floorX += 1;
-                        GotoXY(floorX, floorY); printf("______");
+                        GotoXY(floorX, floorY);
+                        printf("______");
                         break;
-                    default: {};
+                    default: {
+                    };
                 }
             }
         }
@@ -108,6 +114,9 @@ int main() {
                 rightListener(7);
                 floorListener();
             }
+
+            if (highBreakingBricks < breakingBricksScore) highBreakingBricks = breakingBricksScore;
+            if (highRecord < record) highRecord = record;
 
             if (ballX == floorX && ballY == floorY || ballX == floorX + 1 && ballY == floorY) {
                 changeDirection = 7; //발판 왼쪽 2개
@@ -308,6 +317,27 @@ void rightListener(int direction) {
     }
 }
 
+void saveScore() {
+    char buf[100];
+    int lineCount = 0;
+
+    FILE *fpw1 = fopen("gameData", "w");
+    FILE *fpr2 = fopen("gameData", "r");
+    fprintf(fpw1, "%d\n%d", highBreakingBricks, highRecord);
+    fclose(fpw1);
+
+    while (!feof(fpr2)) {
+        fgets(buf, 100, fpr2);
+        lineCount++;
+        if (lineCount == 1) {
+            highBreakingBricks = (int) buf[99]; //fix
+        } else if (lineCount == 2) {
+            highRecord = (int) buf[99]; // fix
+        }
+    }
+    fclose(fpr2);
+}
+
 void showTitle() {
     char buf[100];
     FILE *fpr1 = fopen("title", "r");
@@ -317,18 +347,8 @@ void showTitle() {
         printf("%s", buf);
     }
     fclose(fpr1);
-
-    /*FILE *fpw1 = fopen("gameData", "w");
-    FILE *fpr2 = fopen("gameData", "r");
-    fprintf(fpr1, "%d\n%d", highScore[0], highScore[1]);*/
-
     //INFO
-    if (highBreakingBricks < breakingBricksScore) {
-        highBreakingBricks = breakingBricksScore;
-    }
-    if (highRecord < record) {
-        highRecord = record;
-    }
+    saveScore();
     GotoXY(110, 9);
     printf("━━━━━━━[ \033[35mBEST \033[0m]━━━━━━━");
     GotoXY(110, 10);
@@ -429,12 +449,12 @@ void GotoXY(int x, int y) {
 void visual() {
     system("cls");
     int speed = 100;
-    GotoXY(68, 10); printf("\033[31m██████╗ ██╗███████╗██╗");
-    GotoXY(68, 11); printf("██╔══██╗██║██╔════╝██║");
-    GotoXY(68, 12); printf("██║  ██║██║█████╗  ██║");
-    GotoXY(68, 13); printf("██║  ██║██║██╔══╝  ╚═╝");
-    GotoXY(68, 14); printf("██████╔╝██║███████╗██╗");
-    GotoXY(68, 15); printf("╚═════╝ ╚═╝╚══════╝╚═╝\033[0m");
+    GotoXY(63, 10); printf("\033[31m██████╗ ███████╗ █████╗ ██████╗");
+    GotoXY(63, 11); printf("██╔══██╗██╔════╝██╔══██╗██╔══██╗");
+    GotoXY(63, 12); printf("██║  ██║█████╗  ███████║██║  ██║");
+    GotoXY(63, 13); printf("██║  ██║██╔══╝  ██╔══██║██║  ██║");
+    GotoXY(63, 14); printf("██████╔╝███████╗██║  ██║██████╔╝");
+    GotoXY(63, 15); printf("╚═════╝ ╚══════╝╚═╝  ╚═╝╚═════╝\033[0m");
     for (int i = 0; i < 20; i++) {
         if (i % 4 == 0) {
             GotoXY(53, 17);
